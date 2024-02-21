@@ -1,6 +1,9 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const Note = require('./models/note')
+
 
 app.use(express.json())
 app.use(express.static('dist'))
@@ -26,18 +29,16 @@ let notes = [
 
 // Devuelve todas las notas
 app.get('/api/notes' ,( req,res )=>{
-    res.json(notes)
+    Note.find({}).then(notes => {
+      res.json(notes)
+    })
 })
 
 // Busca por ID
 app.get('/api/notes/:id', (req,res)=>{
-    const id = Number(req.params.id)
-    const note = notes.find(note=> note.id === id)
-    if (note){
-        res.json(note)    
-    }else{
-        res.status(404).end()
-    }
+    Note.findById(req.params.id).then(note=>{
+      res.json(note)
+    })
 })
 
 // Borra nota por ID
@@ -62,18 +63,17 @@ app.post('/api/notes', (request,response)=>{
         })
       }
     
-    const note = {
-        content: body.content,
-        important: Boolean(body.important) || false,
-        id: generateId(),
-    }
+    const note = new Note({
+      content: body.content,
+      important: body.important || false,
+    })
 
-    notes = notes.concat(note)
-
-    response.json(note)
+    note.save().then(savedNote => {
+      response.json(savedNote)
+    })
 })
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, ()=>{
     console.log(`Server runing on port ${PORT}`);
 })
