@@ -1,39 +1,39 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 
-if (process.argv.length<3) {
-  console.log('give password as argument')
-  process.exit(1)
-}
+// if (process.argv.length<3) {
+//   console.log('give password as argument')
+//   process.exit(1)
+// }
 
-const password = process.argv[2]
+// const password = process.argv[2]
 
-const url = `mongodb+srv://matt:${password}@fullstackopen.5zswlex.mongodb.net/noteApp?retryWrites=true&w=majority`
+// const url = `mongodb+srv://matt:${password}@fullstackopen.5zswlex.mongodb.net/noteApp?retryWrites=true&w=majority`
 
-mongoose.set('strictQuery',false)
-mongoose.connect(url)
+// mongoose.set('strictQuery',false)
+// mongoose.connect(url)
 
-const noteSchema = new mongoose.Schema({
-  content: String,
-  important: Boolean,
-})
-
-
-
-const Note = mongoose.model('Note', noteSchema)
-
-// const note = new Note({
-//   content: 'React is Easy',
-//   important: true,
+// const noteSchema = new mongoose.Schema({
+//   content: String,
+//   important: Boolean,
 // })
 
-// note.save().then(result => {
-//   console.log('note saved!')
-//   mongoose.connection.close()
-// })
 
-Note.find({}).then(result => {
-    result.forEach(note => {
-      console.log(note)
-    })
-    mongoose.connection.close()
-  })
+
+// const Note = mongoose.model('Note', noteSchema)
+
+// // const note = new Note({
+// //   content: 'React is Easy',
+// //   important: true,
+// // })
+
+// // note.save().then(result => {
+// //   console.log('note saved!')
+// //   mongoose.connection.close()
+// // })
+
+// Note.find({}).then(result => {
+//     result.forEach(note => {
+//       console.log(note)
+//     })
+//     mongoose.connection.close()
+//   })
